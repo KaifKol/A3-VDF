@@ -1,5 +1,5 @@
 class CfgPatches {
-    class veh_destruction_fx {
+    class vdf {
         name = "Vehicle Destruction FX";
         units[] = {};
         weapons[] = {};
@@ -11,7 +11,7 @@ class CfgPatches {
 };
 
 class Extended_PostInit_EventHandlers {
-    class veh_destruction_fx {
+    class vdf {
         isGlobal = 0;
         serverOnly = 1;
         init = "if (isServer) then { execVM 'veh_destruction_fx\initServer.sqf' };";

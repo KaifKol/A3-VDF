@@ -1,6 +1,6 @@
 class CfgPatches
 {
-	class Particles_Extracted
+	class vdf_particles
 	{
 		requiredAddons[]=
 		{
