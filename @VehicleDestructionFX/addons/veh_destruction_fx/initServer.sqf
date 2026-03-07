@@ -1,3 +1,22 @@
+fnc_vdf_addHitEH = {
+    params ["_vdf"];
+    _vdf addEventHandler ["Hit", {
+        params ["_veh", "_shooter", "_damage", "_instigator"];
+        private _attacker = objNull;
+        if (!isNull _instigator && {_instigator isKindOf "Man"}) then {
+            _attacker = _instigator;
+        } else {
+            if (!isNull _shooter && {!(_shooter isEqualTo _veh)}) then {
+                _attacker = _shooter;
+            };
+        };
+        if (!isNull _attacker) then {
+            // broadcast = true — сервер получит значение
+            _veh setVariable ["vdf_lastAttacker", _attacker, true];
+        };
+    }];
+};
+
 if (isServer) then {
     private _aceLoaded = isClass (configFile >> "CfgPatches" >> "ace_main");
     private _threshold = 0.50;
@@ -24,20 +43,11 @@ if (isServer) then {
         params ["_vdf"];
         if (!(_vdf isKindOf "AllVehicles") || {_vdf isKindOf "Man"}) exitWith {};
 
-        _vdf addEventHandler ["Hit", {
-            params ["_veh", "_shooter", "_damage", "_instigator"];
-            private _attacker = objNull;
-            if (!isNull _instigator && {_instigator isKindOf "Man"}) then {
-                _attacker = _instigator;
-            } else {
-                if (!isNull _shooter && {!(_shooter isEqualTo _veh)}) then {
-                    _attacker = _shooter;
-                };
-            };
-            if (!isNull _attacker) then {
-                _veh setVariable ["vdf_lastAttacker", _attacker, true];
-            };
-        }];
+        if (local _vdf) then {
+            [_vdf] call fnc_vdf_addHitEH;
+        } else {
+            [_vdf] remoteExec ["fnc_vdf_addHitEH", _vdf];
+        };
 
         [_vdf, missionNamespace getVariable "vdf_aceLoaded", missionNamespace getVariable "vdf_threshold"] spawn {
             params ["_vdf", "_aceLoaded", "_threshold"];
@@ -118,6 +128,10 @@ if (isServer) then {
 
     addMissionEventHandler ["EntityCreated", {
         params ["_entity"];
-        [_entity] call (missionNamespace getVariable "fnc_vdf_initVehicle");
+        [_entity] spawn {
+            params ["_entity"];
+            sleep 0.1;
+            [_entity] call (missionNamespace getVariable "fnc_vdf_initVehicle");
+        };
     }];
 };
