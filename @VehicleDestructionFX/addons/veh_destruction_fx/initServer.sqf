@@ -11,7 +11,6 @@ fnc_vdf_addHitEH = {
             };
         };
         if (!isNull _attacker) then {
-            // broadcast = true — сервер получит значение
             _veh setVariable ["vdf_lastAttacker", _attacker, true];
         };
     }];
