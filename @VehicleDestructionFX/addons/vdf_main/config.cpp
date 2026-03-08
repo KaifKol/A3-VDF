@@ -14,6 +14,6 @@ class Extended_PostInit_EventHandlers {
     class vdf {
         isGlobal = 0;
         serverOnly = 1;
-        init = "if (isServer) then { execVM 'veh_destruction_fx\initServer.sqf' };";
+        init = "if (isServer) then { execVM 'vdf_main\initServer.sqf' };";
     };
 };
