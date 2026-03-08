@@ -16,9 +16,12 @@ class CfgFunctions {
         tag = "vdf";
         class functions {
             file = "vdf_main\functions";
-            class initVehicle {};
-            class addHitEH    {};
-            class debugHint   {};
+            class initVehicle    {};
+            class addHitEH       {};
+            class debugHint      {};
+            class extinguish     {};
+            class syncCrew   {};
+            class checkCargo {};
         };
     };
 };

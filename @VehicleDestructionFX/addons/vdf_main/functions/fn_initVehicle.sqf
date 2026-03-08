@@ -53,6 +53,8 @@ if (local _vdf) then {
     sleep (missionNamespace getVariable "vdf_sleepMediumSmoke");
     if (isNull _vdf || {!alive _vdf} || {damage _vdf >= 1}) exitWith { deleteVehicle _p2; };
 
+    if ([_vdf] call vdf_fnc_extinguish) exitWith { deleteVehicle _p2; };
+
     ["Stage: Small fire"] call vdf_fnc_debugHint;
     private _p3 = "Particle_MediumFire_F" createVehicle (getPos _vdf);
     _p3 attachTo [_vdf, [0, 0, -1]];
